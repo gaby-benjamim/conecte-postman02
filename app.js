@@ -11,7 +11,7 @@ app.use(express.json())
 
 
 // Models
-const User = require('./models/')
+// const User = require('./models/User')
 
 // Open Route - Public Route
 app.get('/', (req, res) =>{
@@ -20,21 +20,26 @@ app.get('/', (req, res) =>{
 
 
 // Register User
-app.post('/auth/register', async(req, res) => {
+app.post('/registro/usuario', async(req, res) => {
     const {name, email, password, confirmpassword} = req.body
 
     //  validacoes
     if(!name) {
-        return res.status(422).json({msg: 'O nome é obrigatório! '})
+        return res.status(422).json({ msg: 'O nome é obrigatório! '})
     }
 
     if(!email) {
-        return res.status(422).json({msg: 'O email é obrigatório! '})
+        return res.status(422).json({ msg: 'O email é obrigatório! '})
     }
 
     if(!password) {
-        return res.status(422).json({msg: 'A senha é obrigatória! '})
+        return res.status(422).json({ msg: 'A senha é obrigatória! '})
     }
+
+    if (password !== confirmpassword) {
+        return res.status(422).json({msg: 'As senhas nao conferem!' })
+    }
+
 
 })
 
@@ -45,8 +50,7 @@ const dbUser = process.env.DB_USER
 const dbPassword = process.env.DB_PASS
 
 mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.btbvker.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-` 
-)
+` )
 .then(() =>{
   
 
@@ -57,8 +61,4 @@ mongoose.connect(`mongodb+srv://${dbUser}:${dbPassword}@cluster0.btbvker.mongodb
 
 
     console.log('Conectou ao banco')
-}).catch((err) => console.log(err))
-
-
-
-
+}).catch((err) => console.log(err));

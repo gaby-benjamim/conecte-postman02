@@ -37,6 +37,8 @@ app.get("/user/:id", checkToken, async (req,res) => {
 
 })
 
+
+
     function checkToken(req, res, next) {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(" ")[1]
@@ -146,7 +148,7 @@ app.post('/registro/login', async (req, res) => {
     try {
 
     const secret = process.env.SECRET
-    const token = jwt.sing(
+    const token = jwt.sign(
         {  id:user._id, }, 
 
     secret,
